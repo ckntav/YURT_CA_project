@@ -16,18 +16,22 @@ rawBH
 yurt_bh_signal_title <- paste0(today, "_yurt_bh_signal")
 yurt_bh_signal <- 
 rawBH %>%
+  # dplyr::filter(Position <= 500) %>% 
   ggplot(aes(x = Position, y = Result)) +
   geom_line(color = "#BFC9CA", size = 0.75) +
   geom_hline(yintercept = 0.6, color = "#32CD32", size = 0.75) +
   geom_hline(yintercept = 0, color = "black", size = 0.75) +
-  labs(x = "", y = "BH signal",
-       title = yurt_bh_signal_title) +
+  labs(x = "Residue position", y = "BH signal") +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
         panel.background = element_blank(),
         axis.line.y = element_line(colour = "black", size = 0.75)) +
+  geom_text(label = "BH threshold", x = 972, y = 0.6, vjust = -1, fontface = "plain", size = 3.5, nudge_x = -1) +
+  scale_y_continuous(breaks = c(-0.5, 0, 0.5, 0.6, 1)) +
   coord_cartesian(ylim = c(-0.5, 1))
+
+yurt_bh_signal
 
 savePlotPNG(yurt_bh_signal,
             output_dir = "output/viz",
